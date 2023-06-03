@@ -1,3 +1,4 @@
+{% extends "dashboard.html" %}
 <!DOCTYPE html>
 
 <html lang="en">
@@ -24,107 +25,106 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-    
-    <div class="container">
-        <!-- header -->
-        <div class="text-center p-5">
-            <h4 class="display-4">Update User Details</h4>
+    {% block body_block %}
+    <div class="content">
+        <div class="container">
+            <!-- header -->
+            <div class="text-center p-5">
+                <h4 class="display-4">Update User Details</h4>
+            </div>
+            <!-- header -->
+            <!-- Update Form -->
+            <form method="POST" action="{% url 'update_document' document_id=document_id %}">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" value="{{user.name}}" class="form-control" required>
+                    </div>
+                    <div class=" form-group col-md-6">
+                        <label for="email">Email:</label>
+                        <input type="email" value="{{user.email}}" name="email" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md">
+                        <label for="organization">Organization:</label>
+                        <input type="text" name="organization" value="{{user.organization}}" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="dob">Date of Birth:</label>
+                        <input type="date" name="dob" value="{{user.dob}}" class="form-control">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="phone_no">Mobile Number:</label>
+                        <input type="tel" value="{{user.phone_no}}" name="phone_no" class="form-control" maxlength="13">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="gender">Gender:</label>
+                        <select value="{{user.gender}}" name="gender" class="form-control">
+                            <option value="" selected hidden>Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="language">Language:</label>
+                        <select value="{{user.language}}" name="language" class="form-control">
+                            <option value="" selected>Select</option>
+                            <option value="English">English</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="agent">Agent:</label>
+                        <select value="{{user.agent}}" name="agent" class="form-control">
+                            <option value="" selected hidden>Select</option>
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="email_verified">Email Verified:</label>
+                        <select value="{{user.email_verified}}" name="email_verified" class="form-control">
+                            <option value="" selected hidden>Select</option>
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="profile">Profile:</label>
+                        <select value="{{user.profile}}" name="profile" class="form-control">
+                            <option value="" selected hidden>Select</option>
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="uid">UID:</label>
+                        <input type="text" value="{{user.uid}}" name="uid" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md">
+                        <label for="url">URL:</label>
+                        <input type="url" value="{{user.url}}" name="url" class="form-control">
+                    </div>
+                </div>
+
+                <br />
+                <button type="submit" class="btn-success btn-block">Update</button>
+            </form>
+            <!-- Update Form -->
         </div>
-        <!-- header -->
-
-        <!-- Update Form -->
-        <form method="POST" action="{% url 'update_document' document_id=document_id %}">
-            {% csrf_token %}
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="name">Name:</label>
-                    <input type="text" name="name" value="{{user.name}}" class="form-control" required>
-                </div>
-                <div class=" form-group col-md-6">
-                    <label for="email">Email:</label>
-                    <input type="email" value="{{user.email}}" name="email" class="form-control">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md">
-                    <label for="organization">Organization:</label>
-                    <input type="text" name="organization" value="{{user.organization}}" class="form-control">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-3">
-                    <label for="dob">Date of Birth:</label>
-                    <input type="date" name="dob" value="{{user.dob}}" class="form-control">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="phone_no">Mobile Number:</label>
-                    <input type="tel" value="{{user.phone_no}}" name="phone_no" class="form-control" maxlength="13">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="gender">Gender:</label>
-                    <select value="{{user.gender}}" name="gender" class="form-control">
-                        <option value="" selected hidden>Select</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="language">Language:</label>
-                    <select value="{{user.language}}" name="language" class="form-control">
-                        <option value="" selected>Select</option>
-                        <option value="English">English</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-3">
-                    <label for="agent">Agent:</label>
-                    <select value="{{user.agent}}" name="agent" class="form-control">
-                        <option value="" selected hidden>Select</option>
-                        <option value="true">True</option>
-                        <option value="false">False</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="email_verified">Email Verified:</label>
-                    <select value="{{user.email_verified}}" name="email_verified" class="form-control">
-                        <option value="" selected hidden>Select</option>
-                        <option value="true">True</option>
-                        <option value="false">False</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="profile">Profile:</label>
-                    <select value="{{user.profile}}" name="profile" class="form-control">
-                        <option value="" selected hidden>Select</option>
-                        <option value="true">True</option>
-                        <option value="false">False</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="uid">UID:</label>
-                    <input type="text" value="{{user.uid}}" name="uid" class="form-control">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md">
-                    <label for="url">URL:</label>
-                    <input type="url" value="{{user.url}}" name="url" class="form-control">
-                </div>
-            </div>
-
-            <br />
-            <button type="submit" class="btn-success btn-block">Update</button>
-        </form>
-        <!-- Update Form -->
     </div>
 
-    <div>
-
-    </div>
+    {% endblock %}
 </body>
 </html>

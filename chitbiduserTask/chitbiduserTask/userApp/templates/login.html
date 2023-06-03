@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static  'login.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        .card {
+            box-shadow: 3px 5px 8px #007bff;
+
+        }
+        .login{
+            margin:175px;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="container-fluid">
+        <div class="login row  " style="display: flex; justify-content:center;">
+            <div class="card" style="max-width: 800px; ">
+                <div class="row no-gutters">
+                    <div class="col-md-3">
+                        <img src="{% static 'images/loginimage.png' %}" class="card-img" alt="login-image">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <h3 class="text-center">Login</h3>
+                            <form method="post" action="{% url 'login' %}">
+                                {% csrf_token %}
+                                <div class="form-row px-5">
+                                    <div class="col-md">
+                                        <label for="username" class="form-label">Username :</label>
+                                        <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-row px-5">
+                                    <div class="col-md">
+                                        <label for="password" class="form-label">Password :</label>
+                                        <input type="text" class="form-control" name="password" id="password" placeholder="Password" required>
+                                    </div>
+                                </div> 
+                                <br /><br />
+                                <div class="col-md">
+                                    {% if error_message %}
+                                    <p class="text-danger text-center">{{ error_message }}</p>
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="px-5">
+                                    <button type="submit" class="btn btn-block btn-primary ">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
