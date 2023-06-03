@@ -123,3 +123,11 @@ def delete_document(request, document_id):
     return redirect('read_documents')
 
 # To delete user details...
+
+
+# Login...
+def login(request):
+    a = 'hello'
+    print(a)
+# Login...
+ 
