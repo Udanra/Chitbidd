@@ -4,7 +4,8 @@
     "\\chitbiduserTask",
     "\\chitbiduserTask\\userApp",
     "\\chitbiduserTask\\userApp\\static",
-    "\\chitbiduserTask\\userApp\\templates"
+    "\\chitbiduserTask\\userApp\\templates",
+    "\\chitbiduserTask\\userApp\\templatetags"
   ],
   "SelectedNode": "\\chitbiduserTask\\userApp\\views.py",
   "PreviewInSolutionExplorer": false

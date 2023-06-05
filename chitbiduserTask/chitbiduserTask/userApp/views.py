@@ -60,6 +60,7 @@ def create_document(request):
         return redirect('read_documents')
         
     return render(request, 'create.html')
+   
 
 # To create user details...
 
@@ -260,3 +261,115 @@ def download_excel(request, document_id):
     return response
 
 # For Excel Sheet Download...
+
+# Bids Page Related codes here...
+
+# Read 
+def bids(request):
+    db = firestore.Client()
+    docs = db.collection('bids').get()
+
+    bids = []
+    for doc in docs:
+        bid = doc.to_dict()
+        bid['id'] = doc.id
+        print(bid,64654)
+        bids.append(bid)
+    return render (request, 'bids.html', {'bids':bids})
+#Read
+
+# PDF Download
+def generate_bid_pdf(document_id):
+    print( document_id,  "Generating PDF...")
+    db = firestore.Client()
+    doc_ref = db.collection('bids').document(document_id)
+    bid_users = doc_ref.get()
+    
+    
+   
+    if bid_users.exists:
+        data = bid_users.to_dict()
+        bid_pdf_filename = 'Bid_data.pdf'
+        bid_pdf_path = os.path.abspath(bid_pdf_filename)
+        print("PDF file path:", bid_pdf_path)
+        # Generate PDF
+      
+        c = canvas.Canvas(bid_pdf_filename, pagesize=letter)
+        
+        # Write data to PDF
+        c.drawString(100, 700, f"Bid_Amount: {data.get('bid_amount')}")
+        c.drawString(100, 680, f"Bid Date & Time: {data.get('bid_date')}")
+        c.drawString(100, 660, f"Nth_Bid: {data.get('nth_bid')}")
+        c.drawString(100, 640, f"Chit_ID: {data.get('chit_id')}")
+        c.drawString(100, 620, f"Winner_Phone_no: {data.get('winner_phone_no')}")
+      
+       
+        # Add more fields as necessary
+        
+        c.save()
+        
+        return bid_pdf_filename
+    
+    return None
+
+
+
+def download_bid_pdf(request, document_id):
+    bid_pdf_filename = generate_bid_pdf(document_id)
+
+    if bid_pdf_filename:
+        try:
+            with open(bid_pdf_filename, 'rb') as file:
+                response = HttpResponse(file.read(), content_type='application/pdf')
+                response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(bid_pdf_filename)
+                print("Response content size:", len(response.content))  # Add this line
+                return response
+        except FileNotFoundError:
+            return HttpResponse("PDF file not found.")
+        except Exception as e:
+            return HttpResponse("Error generating PDF: " + str(e))
+
+    return HttpResponse("PDF generation failed.") 
+# PDF Download
+
+# Excel Sheet Download
+from datetime import datetime
+
+def download_bid_excel(request, document_id):
+    # Fetch data from Firestore or any other source
+    print(document_id, 456464)
+    db = firestore.Client()
+    doc_ref = db.collection('bids').document(document_id)
+    user_doc = doc_ref.get()
+    user_data = user_doc.to_dict()
+
+    # Create a new workbook
+    workbook = Workbook()
+
+    # Create a new sheet in the workbook
+    sheet = workbook.active
+
+    # Add header row
+    headers = ['Bid_Amount', 'Bid Date & Time', 'Nth_Bid', 'Chit_ID', 'Winner_Phone_no']  # Add more fields as per your Firestore document structure
+    sheet.append(headers)
+
+    # Add data row
+    bid_date = user_data['bid_date']
+    if bid_date.tzinfo is not None:
+        bid_date = bid_date.astimezone(None)
+    bid_date_str = bid_date.strftime('%Y-%m-%d %H:%M:%S')
+    row_data = [user_data['bid_amount'], bid_date_str, user_data['nth_bid'], user_data['chit_id'], user_data['winner_phone_no']]
+    sheet.append(row_data)
+
+    # Set the response headers for downloading the file
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=table_data.xlsx'
+
+    # Save the workbook to the response
+    workbook.save(response)
+
+    return response
+
+# Excel Sheet Download
+
+# Bids Page Related codes here...
