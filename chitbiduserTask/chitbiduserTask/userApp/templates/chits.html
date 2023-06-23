@@ -1,0 +1,247 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% block body_block %}
+
+
+    <title>Chits</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            
+        }
+
+        .hidden-column {
+            display: none;
+        }
+        .name {
+            display:table-cell !important;
+        }
+
+
+    </style>
+
+
+    <div class="content">
+        <div class="row">
+            <div class="col-md">
+                <h3 class=" mb-4">Chit Details</h3>
+            </div>
+        </div>
+
+        <div class="filter_by_column">
+            <hr />
+            <a href="{% url 'chit_create_page' %}" data-toggle="tooltip" data-placement="top" title="New Chit" class="btn btn-primary btn-sm py-0">
+                <span class="material-symbols-outlined">
+                    add
+                </span>
+            </a>
+            <button class="btn btn-sm btn-warning border" data-toggle="collapse" href="#collapseColumnFilter" role="button" aria-expanded="false" aria-controls="collapseColumnFilter">Column Filter </button>
+        </div>
+
+        <br />
+        <!--Start Column Filter-->
+        <div class="collapse" id="collapseColumnFilter">
+            <div class="card card-body mb-3">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-check form-switch mb-3">
+                            <label for="agent_phone_no">agent_phone_no:</label>
+                            <input type="checkbox" id="agent_phone_no_checkbox" onchange="toggleColumns()">
+                        </div>
+
+                        <div class="form-check form-switch mb-3">
+                            <label for="clients">clients:</label>
+                            <input type="checkbox" id="clients_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="has_active_bid">has_active_bid:</label>
+                            <input type="checkbox" id="has_active_bid_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="is_closed">is_closed:</label>
+                            <input type="checkbox" id="is_closed_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="winners">winners:</label>
+                            <input type="checkbox" id="winners_checkbox" onchange="toggleColumns()">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <div class="form-check form-switch mb-3">
+                            <label for="bid_difference_amount">bid_difference_amount:</label>
+                            <input type="checkbox" id="bid_difference_amount_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="is_bid_started_by_agent">is_bid_started_by_agent:</label>
+                            <input type="checkbox" id="is_bid_started_by_agent_checkbox" onchange="toggleColumns()">
+                        </div>
+
+                        <div class="form-check form-switch mb-3">
+                            <label for="last_bid_rebate_value">last_bid_rebate_value:</label>
+                            <input type="checkbox" id="last_bid_rebate_value_checkbox" onchange="toggleColumns()">
+                        </div>
+
+                        <div class="form-check form-switch mb-3">
+                            <label for="lapse_in_days">lapse_in_days:</label>
+                            <input type="checkbox" id="lapse_in_days_checkbox" onchange="toggleColumns()">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check form-switch mb-3">
+                            <label for="member_commission_type">member_commission_type:</label>
+                            <input type="checkbox" id="member_commission_type_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="payment_grace_period_in_days">payment_grace_period_in_days:</label>
+                            <input type="checkbox" id="payment_grace_period_in_days_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="payment_grace_period_type">payment_grace_period_type:</label>
+                            <input type="checkbox" id="payment_grace_period_type_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="updated_at">updated_at:</label>
+                            <input type="checkbox" id="updated_at_checkbox" onchange="toggleColumns()">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check form-switch mb-3">
+                            <label for="next_bid_date">next_bid_date:</label>
+                            <input type="checkbox" id="next_bid_date_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="no_of_closed_bids">no_of_closed_bids:</label>
+                            <input type="checkbox" id="no_of_closed_bids_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="start_bid_date">start_bid_date:</label>
+                            <input type="checkbox" id="start_bid_date_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="past_rebate_values">past_rebate_values:</label>
+                            <input type="checkbox" id="past_rebate_values_checkbox" onchange="toggleColumns()">
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <label for="agent_commission_percent">agent_commission_percent:</label>
+                            <input type="checkbox" id="agent_commission_percent_checkbox" onchange="toggleColumns()">
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Enable Checkbox -->
+            </div>
+        </div>
+        <!--End Column Filter-->
+
+        <div class="table-responsive">
+            {% if user %}
+            <table id="myTable" class="table text-center table-striped table-hover">
+                <tr>
+                    <th class="text-center">S.No</th>
+                    <th class="name text-center">Name</th>
+                    <th class="text-center">Description</th>
+                    <th class="text-center">agent_commission_type</th>
+                    <th class="text-center">bid_start_amount</th>
+                    <th class="text-center">created_at</th>
+                    <th id="agent_commission_percent" class="hidden-column text-center">agent_commission_percent</th>
+                    <th id="agent_phone_no" class="hidden-column text-center">agent_phone_no</th>
+                    <th id="bid_difference_amount" class="hidden-column text-center">bid_difference_amount</th>
+                    <th id="clients" class="hidden-column text-center">clients</th>
+                    <th id="has_active_bid" class="hidden-column text-center">has_active_bid</th>
+                    <th id="is_bid_started_by_agent" class="hidden-column text-center">is_bid_started_by_agent</th>
+                    <th id="is_closed" class="hidden-column text-center">is_closed</th>
+                    <th id="lapse_in_days" class="hidden-column text-center">lapse_in_days</th>
+                    <th id="last_bid_rebate_value" class="hidden-column text-center">last_bid_rebate_value</th>
+                    <th id="member_commission_type" class="hidden-column text-center">member_commission_type</th>
+                    <th id="next_bid_date" class="hidden-column text-center">next_bid_date</th>
+                    <th id="no_of_closed_bids" class="hidden-column text-center">no_of_closed_bids</th>
+                    <th id="payment_grace_period_in_days" class="hidden-column text-center">payment_grace_period_in_days</th>
+                    <th id="payment_grace_period_type" class="hidden-column text-center">payment_grace_period_type</th>
+                    <th id="start_bid_date" class="hidden-column text-center">start_bid_date</th>
+                    <th id="updated_at" class="hidden-column text-center">updated_at</th>
+                    <th id="winners" class="hidden-column text-center">winners</th>
+                    <th id="past_rebate_values" class="hidden-column text-center">past_rebate_values</th>
+                    <th class="name text-center">Action</th>
+                   
+                </tr>
+                {% for user in chit_data %}
+                <tr>
+                    <td class="text-center">{{forloop.counter}}</td>
+                    <td class="text-center name">{{user.name}}</td>
+                    <td class="text-center">{{user.description}}</td>
+                    <td class="text-center">{{user.agent_commission_type}}</td>
+                    <td class="text-center">{{user.bid_start_amount}}</td>
+                    <td class="text-center">{{user.created_at}}</td>
+                    <td class="hidden-column agent_commission_percent text-center">{{user.agent_commission_percent}}</td>
+                    <td class="hidden-column agent_phone_no text-center">{{user.agent_phone_no}}</td>
+                    <td class="hidden-column bid_difference_amount text-center">{{user.bid_difference_amount}}</td>
+                    <td class="hidden-column clients text-center">{{user.clients}}</td>
+                    <td class="hidden-column has_active_bid text-center">{{user.has_active_bid}}</td>
+                    <td class="hidden-column is_bid_started_by_agent text-center">{{user.is_bid_started_by_agent}}</td>
+                    <td class="hidden-column is_closed text-center">{{user.is_closed}}</td>
+                    <td class="hidden-column lapse_in_days text-center">{{user.lapse_in_days}}</td>
+                    <td class="hidden-column last_bid_rebate_value text-center">{{user.last_bid_rebate_value}}</td>
+                    <td class="hidden-column member_commission_type text-center">{{user.member_commission_type}}</td>
+                    <td class="hidden-column next_bid_date text-center">{{user.next_bid_date}}</td>
+                    <td class="hidden-column no_of_closed_bids text-center">{{user.no_of_closed_bids}}</td>
+                    <td class="hidden-column payment_grace_period_in_days text-center" >{{user.payment_grace_period_in_days}}</td>
+                    <td class="hidden-column payment_grace_period_type text-center">{{user.payment_grace_period_type}}</td>
+                    <td class="hidden-column start_bid_date text-center">{{user.start_bid_date}}</td>
+                    <td class="hidden-column updated_at text-center">{{user.updated_at}}</td>
+                    <td class="hidden-column winners text-center">{{user.winners}}</td>
+                    <td class="hidden-column past_rebate_values text-center">{{user.past_rebate_values}}</td>
+                    <td class="name text-center">
+                        <div class="btn-group ">
+                            <a type="button" href="{% url 'chit_details' document_id=user.id %}" class=" btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Read More">
+                                <span class="material-symbols-outlined">
+                                    read_more
+                                </span>
+                            </a>
+                            <a href="{% url 'chit_edit_page' document_id=user.id %}" class=" btn-outline-primary btn-sm " data-toggle="tootltip" data-placement="bottom" title="Edit">
+                                <span class="material-symbols-outlined">
+                                    edit
+                                </span>
+                            </a>
+                            <a href="{% url 'download_chit_excel' document_id=user.id %}" class=" btn-outline-success btn-sm " data-toggle="tooltip" data-placement="bottom" title="Excel">
+                                <i class="fa fa-file-excel-o m-1" style="font-size:21px;"></i>
+                            </a>
+
+                            <a class="btn-outline-danger btn-sm" href="{% url 'download_chit_pdf' document_id=user.id %}" data-toggle="tooltip" data-placement="bottom" title="Pdf">
+                                <span class="material-symbols-outlined">
+                                    picture_as_pdf
+                                </span>
+                            </a>
+                            <a href="{% url 'chit_delete' document_id=user.id %}" class=" btn-outline-dark btn-sm " data-toggle="tooltip" data-placement="bottom" title="Delete">
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+                            </a>
+                        </div>
+                    </td>
+
+                </tr>
+                {% endfor %}{% endif %}
+            </table>
+        </div>
+    </div>
+
+    <script>
+        
+    </script>
+
+
+    {% endblock %}
+
+
+

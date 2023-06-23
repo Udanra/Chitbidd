@@ -1,0 +1,153 @@
+{% extends "dashboard.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chits Details</title>
+
+</head>
+<body>
+    {% block body_block %}
+    <div class="content">
+        <div class="row">
+            <div class="col-md">
+                <h3 class=" mb-4"> Chit Details</h3>
+            </div>
+        </div>
+        <div class="card p-2">
+            <h3 class=" mb-4 mt-2 text-center">{{chit.name}} Chit</h3>
+            <form method="POST" action="{% url 'chit_details' document_id=document_id %}">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <!-- <div class="form-group col-md">
+                <label for="name">Name :</label>
+                <input type="text" name="name" value="" class="form-control" />
+            </div>-->
+                    <div class="form-group col-md">
+                        <label for="description">Description :</label>
+                        <input type="text" name="description" value="{{chit.description}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="total_amount">Total Amount :</label>
+                        <input type="text" name="total_amount" value="{{chit.total_amount}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="no_of_clients">Number Of Client :</label>
+                        <input type="text" name="no_of_clients" value="{{chit.no_of_clients}}" class="form-control" />
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md">
+                        <label for="agent_commission_type">Agent Commission Type :</label>
+                        <input type="text" name="agent_commission_type" value="{{chit.agent_commission_type}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="bid_start_amount">Bid Start Amount :</label>
+                        <input type="text" name="bid_start_amount" value="{{chit.bid_start_amount}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="created_at">Created At :</label>
+                        <input type="text" name="created_at" value="{{chit.created_at}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="agent_commission_percent">Agent Commission Percentage :</label>
+                        <input type="text" name="agent_commission_percent" value="{{chit.agent_commission_percent}}" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md">
+                        <label for="agent_phone_no">Agent Phone No :</label>
+                        <input type="text" name="agent_phone_no" value="{{chit.agent_phone_no}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="bid_difference_amount">Bid Difference Amount :</label>
+                        <input type="text" name="bid_difference_amount" value="{{chit.bid_difference_amount}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="clients">Clients :</label>
+                        <input type="text" name="clients" value="{{chit.clients}}" class="form-control" />
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md">
+                        <label for="has_active_bid">Has Active Bid :</label>
+                        <input type="text" name="has_active_bid" value="{{chit.has_active_bid}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="is_bid_started_by_agent">Bid Started By Agent :</label>
+                        <input type="text" name="is_bid_started_by_agent" value="{{chit.is_bid_started_by_agent}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="is_closed">Closed :</label>
+                        <input type="text" name="is_closed" value="{{chit.is_closed}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="lapse_in_days">Lapse in Days :</label>
+                        <input type="text" name="lapse_in_days" value="{{chit.lapse_in_days}}" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md">
+                        <label for="last_bid_rebate_value">Last Bid Rebate Value :</label>
+                        <input type="text" name="last_bid_rebate_value" value="{{chit.last_bid_rebate_value}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="member_commission_type">Member Commission Type :</label>
+                        <input type="text" name="member_commission_type" value="{{chit.member_commission_type}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="next_bid_date">Next Bid Date :</label>
+                        <input type="text" name="next_bid_date" value="{{chit.next_bid_date}}" class="form-control" />
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md">
+                        <label for="no_of_closed_bids">No Of Closed Bids :</label>
+                        <input type="text" name="no_of_closed_bids" value="{{chit.no_of_closed_bids}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="payment_grace_period_in_days">Payment Grace Period In Days :</label>
+                        <input type="text" name="payment_grace_period_in_days" value="{{chit.payment_grace_period_in_days}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="payment_grace_period_type">Payment Grace Period Type :</label>
+                        <input type="text" name="payment_grace_period_type" value="{{chit.payment_grace_period_type}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="start_bid_date">Start Bid Date :</label>
+                        <input type="text" name="start_bid_date" value="{{chit.start_bid_date}}" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md">
+                        <label for="updated_at">Updated At :</label>
+                        <input type="text" name="updated_at" value="{{chit.updated_at}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="winners">Winner :</label>
+                        <input type="text" name="winners" value="{{chit.winners}}" class="form-control" />
+                    </div>
+                    <div class="form-group col-md">
+                        <label for="past_rebate_values">past Rebate Values :</label>
+                        <input type="text" name="past_rebate_values" value="{{chit.past_rebate_values}}" class="form-control" />
+                    </div>
+                </div>
+
+                <center>
+                    <a class="btn btn-primary text-white border px-5 m-4 badge-pill" href="{% url 'chit_page' %}">Back</a>
+                </center>
+                
+
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

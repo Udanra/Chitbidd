@@ -1,0 +1,289 @@
+{% extends "dashboard.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chits Add Form</title>
+    <link rel="stylesheet" href="{% static 'userApp/css/chits.css' %}" />
+    <style>
+        .number-field {
+            display: inline-flex;
+            align-items: center;
+        }
+
+            .number-field input {
+                margin-left: 5px;
+            }
+    </style>
+</head>
+<body>
+    {% block body_block %}
+    <div class="content">
+
+        <div class="col-md">
+            <h3 class="my-4 text-center">New Chit</h3>
+        </div>
+        <div class="commission">
+            <div class="">
+                <div class="col-md mx-4">
+                    <h4 class="my-4">Agent Commission Type</h4>
+
+                    <div class="mx-4">
+                        <input type="radio" id="one_time_commission" name="agent_commission_type" value="one_time_commission" checked="checked" />
+                        <label for="one_time_commission" class="mx-4">One time collection at beginning</label>
+                    </div>
+
+                    <div class="mx-4">
+                        <input type="radio" id="n_percent_with" name="agent_commission_type" value="n_percent_with" />
+                        <label for="n_percent_with" class="mx-4">N percentage with repayment</label>
+                    </div>
+
+                    <div class="mx-4">
+                        <input type="radio" id="n_percent_without" name="agent_commission_type" value="n_percent_without" />
+                        <label for="n_percent_without" class="mx-4">N percentage without repayment</label>
+                    </div>
+                </div>
+                <div class="col-md my-4 mx-4 ">
+                    <h4 class="mb-4">Member Commission Type</h4>
+
+                    <div class="mx-4">
+                        <input type="radio" id="eligible_until" name="member_commission_type" value="eligible_until" checked="checked" />
+                        <label for="eligible_until" class="mx-4">Eligible until auction won</label>
+                    </div>
+
+                    <div class="mx-4">
+                        <input type="radio" id="eligible_entire" name="member_commission_type" value="eligible_entire" />
+                        <label for="eligible_entire" class="mx-4">Eligible for entire chit</label>
+                    </div>
+                </div>
+
+                <center class="col-md">
+                    <a type="button" class="btn-sm btn-primary text-white px-4 " data-toggle="modal" data-target="#myModal">Next</a>
+                </center>
+
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create New Chit</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class=" py-2 px-5 ">
+
+                            <form method="POST" action="{% url 'chit_create_page' %}">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="name">Name :</label>
+                                        <input type="text" name="name" id="name" placeholder="Name" class="form-control" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="agent_phone_no">Agent Phone No :</label>
+                                        <input type="tel" name="agent_phone_no" id="agent_phone_no" placeholder="Agent Phone No" class="form-control" maxlength=13 />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="description">Description :</label>
+                                        <input type="text" name="description" id="description" placeholder="Description" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="lapse_in_days">Lapse in Days :</label>
+                                        <input type="text" name="lapse_in_days" id="lapse_in_days" placeholder="Lapse In Days" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="total_amount">Chit Value :</label>
+                                        <input type="text" name="total_amount" id="total_amount" placeholder="Chit Value" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="bid_start_amount">Bid Start Amount :</label>
+                                        <input type="text" name="bid_start_amount" id="bid_start_amount" placeholder="Bid Start Amount" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="bid_difference_amount">Bid Difference Amount :</label>
+                                        <input type="text" name="bid_difference_amount" id="bid_difference_amount" placeholder="Bid Difference Amount" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="agent_commission_type">Agent Commission Type:</label>
+                                        <select id="agent_commission_type" name="agent_commission_type" class="form-control" placeholder="Agent Commission Type" onchange="toggleCommissionInput()">
+                                            <option value="">Select</option>
+                                            <option value="One time">One time</option>
+                                            <option value="N percentage">N percentage</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row" id="commission_percent_row" style="display: none;">
+                                    <div class="form-group col-md">
+                                        <label for="agent_commission_percent">Agent Commission Percentage:</label>
+                                        <input type="text" name="agent_commission_percent" id="agent_commission_percent" placeholder="Agent Commission Percentage" class="form-control" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="member_commission_type">Member Commission Type :</label>
+                                        <select id="member_commission_type" name="member_commission_type" class="form-control">
+                                            <option value="">Select</option>
+                                            <option value="Till won">Till won</option>
+                                            <option value="Entire chit">Entire chit</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label>Payment Grace Period:</label><br>
+                                        <div class="radio-input">
+                                            <input type="radio" id="immediate" name="payment_grace_period" value="immediate" checked="checked">
+                                            <label for="immediate">Immediate</label>
+                                        </div>
+                                        <div class="radio-input">
+                                            <input type="radio" id="payment_grace_period_in_days" name="payment_grace_period" value="payment_grace_period_in_days">
+                                            <label for="payment_grace_period_in_days">In Days</label>
+                                            <div class="number-field">
+                                                <input type="number" value="0" min="0" class="form-control col-md-4">
+                                                <label for="payment_grace_period_in_days">Days</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- <div class="form-row">
+                                <div class="form-group col-md">
+        <label for="payment_grace_period_in_days">Payment Grace Period In Days :</label>
+        <input type="radio" name="payment_grace_period_in_days" id="payment_grace_period_in_days" placeholder="Payment Grace Period In Days"  />
+    </div>
+                                <div class="form-group col-md">
+                                    <label for="payment_grace_period_type">Payment Grace Period Type :</label>
+                                    <input type="text" name="payment_grace_period_type" id="payment_grace_period_type" placeholder="Payment Grace Period Type" class="form-control" />
+                                </div>
+                            </div>-->
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="start_bid_date">Start Bid Date :</label>
+                                        <input type="date" name="start_bid_date" id="start_bid_date" placeholder="Start Bid Date" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="no_of_clients">Number of Client :</label>
+                                        <input type="text" name="no_of_clients" id="no_of_clients" placeholder="Number of Client" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <p>Client Mobile Number :</p>
+                                <div id="numberContainer">
+                                    <div class="input-group">
+                                        <input type="tel" class="form-control" name="clients" id="clients" placeholder="Enter mobile number (+910000000000)" maxlength="13"><br><br>
+                                        <span class="input-group-btn">
+                                            &nbsp;<button class="btn btn-danger btn-sm removeNumber" type="button">Remove</button>
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <button id="addNumber" class="btn btn-sm btn-primary mt-3" type="button">Add Number</button>
+
+
+                                <div class="modal-footer text-center">
+                                    <button type="submit" class="btn btn-success px-4">Create</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+    <script>
+
+        // Add, Remove mobile number  Start...
+        $(document).ready(function () {
+            var numberContainer = $('#numberContainer');
+            var inputGroupTemplate = '<div class="input-group">' +
+                '<input type="tel" class="form-control" name="clients[]" placeholder="Enter mobile number (+910000000000)" maxlength="13">' +
+                '<br><br>' +
+                '<span class="input-group-btn">' +
+                '&nbsp;<button class="btn btn-sm btn-danger removeNumber" type="button">Remove</button>' +
+                '</span>' +
+                '</div>';
+
+            $('#addNumber').click(function () {
+                numberContainer.append(inputGroupTemplate);
+            });
+
+            $(document).on('click', '.removeNumber', function () {
+                $(this).closest('.input-group').remove();
+            });
+        });
+
+        // Add, Remove mobile number  End...
+
+
+        // Number increament and decreament Start...
+
+        // Number increament and decreament Start...
+
+
+        // N percentage start
+        function toggleCommissionInput() {
+            var commissionType = document.getElementById("agent_commission_type").value;
+            var commissionPercentRow = document.getElementById("commission_percent_row");
+
+            if (commissionType === "N percentage") {
+                commissionPercentRow.style.display = "block";
+            } else {
+                commissionPercentRow.style.display = "none";
+            }
+        }
+        // N percentage end
+
+    </script>
+
+    {% endblock %}
+</body>
+</html>

@@ -2,10 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\chitbiduserTask",
+    "\\chitbiduserTask\\chitbiduserTask",
     "\\chitbiduserTask\\userApp",
     "\\chitbiduserTask\\userApp\\static",
-    "\\chitbiduserTask\\userApp\\templates",
-    "\\chitbiduserTask\\userApp\\templatetags"
+    "\\chitbiduserTask\\userApp\\static\\userApp",
+    "\\chitbiduserTask\\userApp\\static\\userApp\\css",
+    "\\chitbiduserTask\\userApp\\static\\userApp\\js",
+    "\\chitbiduserTask\\userApp\\templates"
   ],
   "SelectedNode": "\\chitbiduserTask\\userApp\\views.py",
   "PreviewInSolutionExplorer": false

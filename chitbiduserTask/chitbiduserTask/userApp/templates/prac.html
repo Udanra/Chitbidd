@@ -22,13 +22,38 @@
     }
 
     .icon_size {
-        font-size: 21px;
+        font-size: 30px;
     }
 </style>
 
 <script>
 
- 
+    function toggleColumnsBid() {
+
+        var number_of_bells_checkbox = document.getElementById("number_of_bells_checkbox");
+
+
+        var number_of_bells_cells = document.getElementsByClassName("number_of_bells");
+
+
+
+        var number_of_bells_heading = document.getElementById("number_of_bells");
+
+
+        if (number_of_bells_checkbox.checked) {
+            number_of_bells_heading.classList.remove("hidden-column");
+            for (var i = 0; i < number_of_bells_cells.length; i++) {
+                number_of_bells_cells[i].classList.remove("hidden-column");
+            }
+        } else {
+            number_of_bells_heading.classList.add("hidden-column");
+            for (var i = 0; i < number_of_bells_cells.length; i++) {
+                number_of_bells_cells[i].classList.add("hidden-column");
+            }
+        }
+
+
+    }
 </script>
 
 
@@ -64,13 +89,11 @@
 
                         <div class="form-check form-switch mb-3">
 
-                            <label for="number_of_bells">Number_OF_Bells  </label>
-                            <input type="checkbox" id="number_of_bells_checkbox" onchange="toggleColumnsBid()">
+                            <label for="number_of_bells">Number_OF_Bells  <input type="checkbox" id="number_of_bells_checkbox" onchange="toggleColumnsBid()"></label>
                         </div>
                         <div class="form-check form-switch mb-3">
 
-                            <label for="bid_at">Bid_at  </label>
-                            <input type="checkbox" id="bid_at_checkbox" onchange="toggleColumnsBid()">
+                            <label for="bid_at">Bid_at  <input type="checkbox" id="bid_at_checked" onchange="toggleColumnsBid()"></label>
                         </div>
                         <div class="form-check form-switch mb-3">
 
@@ -125,7 +148,7 @@
                         </div>
                         <div class="form-check form-switch mb-3">
 
-                            <label for="updated_at">Updated_at  <input type="checkbox" id="updated_at_checkbox" onchange="toggleColumnsBid()"></label>
+                            <label for="updated_at">Updated_at  <input type="checkbox" id="updated_at_checked" onchange="toggleColumnsBid()"></label>
                         </div>
                     </div>
                 </div>
@@ -147,19 +170,19 @@
                     <th class="text-center">Nth_Bid</th>
                     <th class="text-center">Chit_ID</th>
                     <th class="text-center">Winner_Phone_no</th>
-                    <th id="number_of_bells" class="hidden-column text-center">Number_OF_Bells</th>
-                    <th id="bid_at" class="hidden-column text-center">Bid_at</th>
-                    <th id="ended_at" class="hidden-column text-center">Ended_at</th>
-                    <th id="is_active" class="hidden-column text-center">Is_Active</th>
-                    <th id="is_agent_bid" class="hidden-column text-center">Is_Agent_bid</th>
-                    <th id="is_automatic" class="hidden-column text-center">Is_Automatic</th>
-                    <th id="is_closed" class="hidden-column text-center">Is_Closed</th>
-                    <th id="is_started" class="hidden-column text-center">Is_Started</th>
-                    <th id="started_at" class="hidden-column text-center">Started_at</th>
-                    <th id="timer_start" class="hidden-column text-center">Timer_Start</th>
-                    <th id="timer_started_at" class="hidden-column text-center">Timer_started_at</th>
-                    <th id="timer_tick_in_seconds" class="hidden-column text-center">Timer_Tick_In_Seconds</th>
-                    <th id="updated_at" class="hidden-column text-center">Updated_at</th>
+                    <th id="number_of_bells" class="hidden text-center">Number_OF_Bells</th>
+                    <th id="bid_at" class="hidden text-center">Bid_at</th>
+                    <th id="ended_at" class="hidden text-center">Ended_at</th>
+                    <th id="is_active" class="hidden text-center">Is_Active</th>
+                    <th id="is_agent_bid" class="hidden text-center">Is_Agent_bid</th>
+                    <th id="is_automatic" class="hidden text-center">Is_Automatic</th>
+                    <th id="is_closed" class="hidden text-center">Is_Closed</th>
+                    <th id="is_startd" class="hidden text-center">Is_Started</th>
+                    <th id="started_at" class="hidden text-center">Started_at</th>
+                    <th id="timer_start" class="hidden text-center">Timer_Start</th>
+                    <th id="timer_started_at" class="hidden text-center">Timer_started_at</th>
+                    <th id="timer_tick_in_seconds" class="hidden text-center">Timer_Tick_In_Seconds</th>
+                    <th id="updated_at" class="hidden text-center">Updated_at</th>
                     <th class="text-center">Action</th>
                 </tr>
                 {% for user in bids %}
@@ -170,7 +193,7 @@
                     <td class="text-center">{{user.nth_bid}}</td>
                     <td class="text-center">{{user.chit_id}}</td>
                     <td class="text-center">{{user.winner_phone_no}}</td>
-                    <td class="hidden-column number_of_bells text-center">{{user.num_of_bells}}</td>
+                    <td class="hidden-column number_of_bells text-center">{{user.number_of_bells}}</td>
                     <td class="hidden-column bid_at text-center">{{user.bid_at}}</td>
                     <td class="hidden-column ended_at text-center">{{user.ended_at}}</td>
                     <td class="hidden-column is_active text-center">{{user.is_active}}</td>
@@ -201,4 +224,8 @@
 
 </div>
 <!--Bid Current table-->
+   
+
+
+
 {% endblock %}

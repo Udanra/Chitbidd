@@ -1,0 +1,182 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block body_block %}
+
+
+<title>User Table</title>
+<script src="{% static 'userApp/js/read.js' %}"></script>
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .hidden-column {
+        display: none;
+    }
+    .icon-size{
+        font-size:21px;
+    }
+</style>
+
+
+
+
+
+<div class="content">
+    <h3 class="mb-4">User Details</h3>
+
+    <!-- Column Filter -->
+    <div class="filter_by_column">
+        <hr />
+        <a href="{% url 'create_document' %}" class="btn btn-primary btn-sm py-0">
+            <span class="material-symbols-outlined">add</span>
+        </a>
+        <button class="btn btn-sm btn-warning border" data-toggle="collapse" href="#collapseColumnFilter" role="button" aria-expanded="false" aria-controls="collapseColumnFilter">Column Filter</button>
+    </div>
+
+    <br />
+
+    <div class="collapse" id="collapseColumnFilter">
+        <div class="card card-body mb-3">
+
+            <div class="row">
+                <div class="form-check form-switch mb-3">
+                    <label for="email">E-mail  <input type="checkbox" id="email_checkbox" onchange="toggleColumnsRead()" /></label>
+                    
+
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <label for="language">Language   <input type="checkbox" id="language_checkbox" onchange="toggleColumnsRead()" /></label>
+                   
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <label for="agent">Agent  <input type="checkbox" id="agent_checkbox" onchange="toggleColumnsRead()" /></label>
+                    
+                </div>
+                <div class="form-check form-switch ">
+                    <label for="url">Url <input type="checkbox" id="url_checkbox" onchange="toggleColumnsRead()" /></label>
+                    
+                </div>
+            </div>
+            <!-- Add checkboxes for other columns here -->
+
+            <div class="row">
+                <div class="form-check form-switch ">
+                    <label for="is_email_verified">Is_Email_Verified   <input type="checkbox" id="is_email_verified_checkbox" onchange="toggleColumnsRead()" /></label>
+                   
+                </div>
+                <div class="form-check form-switch ">
+                    <label for="is_profile_created">
+                        Is_Profile_Created
+                        <input type="checkbox" id="is_profile_created_checkbox" onchange="toggleColumnsRead()" />
+                    </label>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="form_check form_switch">
+                    <label for="uid">Uid <input type="checkbox" id="uid_checkbox" onchange="toggleColumnsRead()" /></label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Column Filter -->
+
+    <div class="table-responsive">
+        {% if user %}
+        <table class="table table-hover  text-center table-striped " id="myTable">
+            <thead>
+                <tr>
+                    <th class="text-center">S.No</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Date_Of_Birth</th>
+                    <th class="text-center">Gender</th>
+                    <th id="email" class="hidden-column text-center">E-mail</th>
+                    <th class="text-center">Mobile_Number</th>
+                    <th class="text-center">Organization</th>
+                    <th id="language" class="hidden-column text-center">Language</th>
+                    <th id="agent" class="hidden-column text-center">Agent</th>
+                    <th id="is_email_verified" class="hidden-column text-center">Is_Email_Verified</th>
+                    <th id="is_profile_created" class="hidden-column text-center">Is_Profile_Created</th>
+                    <th id="uid" class="hidden-column text-center">Uid</th>
+                    <th id="url" class="hidden-column text-center">Url</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            {% for user in users %}
+
+            <tr>
+                <td class="text-center">{{ forloop.counter }}</td>
+                <td class="text-center">{{ user.name }}</td>
+                <td class="text-center">{{ user.dob }}</td>
+                <td class="text-center">{{ user.gender }}</td>
+                <td class="hidden-column email text-center">{{ user.email }}</td>
+                <td class="text-center">{{ user.phone_no }}</td>
+                <td class="text-center">{{ user.organization }}</td>
+                <td class="hidden-column language text-center">{{user.language}}</td>
+                <td class="hidden-column agent text-center">{{user.agent}}</td>
+                <td class="hidden-column is_email_verified text-center">{{user.email_verified}}</td>
+                <td class="hidden-column is_profile_created text-center">{{user.profile}}</td>
+                <td class="hidden-column uid text-center">{{user.uid}}</td>
+                <td class="hidden-column url text-center">{{user.url}}</td>
+                <td class="text-center">
+                    <div class="btn-group">
+                        <a href="{% url 'update_document' document_id=user.id %}" class=" btn-outline-primary btn-sm ">
+                            <span class="material-symbols-outlined">
+                                edit
+                            </span>
+                        </a>
+
+                        <a href="{% url 'download_excel'  document_id=user.id  %}" class=" btn-outline-success btn-sm " aria-label="Excelsheet Download">
+                            <i class="fa fa-file-excel-o m-1 icon-size" ></i>
+                        </a>
+
+                        <a href="{% url 'download_pdf' document_id=user.id %}" class=" btn-outline-danger btn-sm  ">
+                            <span class="material-symbols-outlined">
+                                picture_as_pdf
+                            </span>
+                        </a>
+
+                        <a href="{% url 'delete_document' document_id=user.id %}" class=" btn-outline-dark btn-sm ">
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %} {% endif %}
+        </table>
+    </div>
+</div>
+
+
+<div class="">
+    <ul class="pagination justify-content-end ">
+        <li class="page-item ">
+            <a class="page-link" a>&laquo;</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">1</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">&raquo;</a>
+        </li>
+    </ul>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
